@@ -8,9 +8,12 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import entidades.Cliente;
 
 public class AdaptadorClienteItem extends RecyclerView.Adapter<AdaptadorClienteItem.ExampleViewHolder> {
-    private ArrayList<ClienteItem> mListaCliente;
+    private List<Cliente> mListaCliente;
     private OnItemClickListener mListener;
 
     public interface OnItemClickListener {
@@ -22,16 +25,16 @@ public class AdaptadorClienteItem extends RecyclerView.Adapter<AdaptadorClienteI
     }
 
     public static class ExampleViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvDia, tvServicio, tvHora, tvNombre;
+        public TextView tvNombre, tvDireccion, tvTelefono, tvCiudad, tvID;
 
 
         public ExampleViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
-            tvDia = itemView.findViewById(R.id.tv_ci_dia);
-            tvServicio = itemView.findViewById(R.id.tv_ci_servicio);
-            tvHora = itemView.findViewById(R.id.tv_ci_hora);
             tvNombre = itemView.findViewById(R.id.tv_ci_nombre);
-
+            tvDireccion = itemView.findViewById(R.id.tv_ci_dir);
+            tvTelefono = itemView.findViewById(R.id.tv_ci_tel);
+            tvCiudad = itemView.findViewById(R.id.tv_ci_cd);
+            tvID = itemView.findViewById(R.id.tv_ci_id);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -47,31 +50,30 @@ public class AdaptadorClienteItem extends RecyclerView.Adapter<AdaptadorClienteI
         }
     }
 
-    public AdaptadorItem(ArrayList<CitaItem> listaCancion) {
-        mListaCita = listaCancion;
+    public AdaptadorClienteItem(List<Cliente> listaCliente) {
+        mListaCliente = listaCliente;
     }
-
 
     @Override
     public ExampleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cita_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cliente_item, parent, false);
         ExampleViewHolder evh = new ExampleViewHolder(v, mListener);
         return evh;
     }
 
     @Override
     public void onBindViewHolder(ExampleViewHolder holder, int position) {
-        CitaItem citaActual = mListaCita.get(position);
-        holder.tvDia.setText(citaActual.getDia());
-        holder.tvServicio.setText(citaActual.getServicio());
-        holder.tvHora.setText(citaActual.getHora());
-        holder.tvNombre.setText(citaActual.getNombre());
+        Cliente clienteItem = mListaCliente.get(position);
 
-
+        holder.tvNombre.setText(clienteItem.getNombre());
+        holder.tvDireccion.setText(clienteItem.getDireccion());
+        holder.tvTelefono.setText(clienteItem.getTelefono());
+        holder.tvCiudad.setText(clienteItem.getCiudad());
+        holder.tvID.setText(clienteItem.getIdCliente());
     }
 
     @Override
     public int getItemCount() {
-        return mListaCita.size();
+        return mListaCliente.size();
     }
 }

@@ -1,6 +1,7 @@
 package com.example.pr_sqlite_v01;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -14,6 +15,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import entidades.Cliente;
 import logica.AdminClientes;
@@ -21,13 +24,15 @@ import logica.AdminClientes;
 public class AdminClientesActivity extends AppCompatActivity {
 
     ImageButton btnAgregar, btnEliminar, btnBuscar, btnEditar;
-    ListView listView;
+    //ListView listView;
     EditText etBusqueda;
     String campoBusqueda;
 
     RecyclerView mRecyclerView;
     AdaptadorClienteItem mAdapter;
     RecyclerView.LayoutManager mLayoutManager;
+
+    List<Cliente> listaCliente;
 
     ArrayAdapter<Cliente> arrayGlobal;
 
@@ -43,29 +48,56 @@ public class AdminClientesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_clientes);
         cargarControles();
         cargarEventos();
-        cargarLista();
+        //cargarLista();
+        cargarListaRV();
 
 
     }
 
-    private void cargarLista() {
+    private void cargarListaRV() {
+
         AdminClientes admin = new AdminClientes(this);
+
         try {
-            ArrayAdapter<Cliente> adapter = new ArrayAdapter<Cliente>(this, android.R.layout.simple_list_item_1, admin.ObtenerLista());
-            arrayGlobal = adapter;
-            listView.setAdapter(adapter);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Cliente cli = (Cliente) parent.getAdapter().getItem(position);
-                    Toast.makeText(getBaseContext(), cli.getIdCliente() + ": " + cli.getNombre() + " - " + cli.getCiudad() + " - " + cli.getTelefono() + " - " + cli.getDireccion(), Toast.LENGTH_SHORT).show();
-                }
-            });
+            listaCliente= admin.ObtenerLista();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        mRecyclerView = findViewById(R.id.rv_admincli);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mAdapter = new AdaptadorClienteItem(listaCliente);
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener(new AdaptadorClienteItem.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Toast.makeText(AdminClientesActivity.this, listaCliente.get(position).getNombre(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
+    /*
+        private void cargarLista() {
+            AdminClientes admin = new AdminClientes(this);
+            try {
+                ArrayAdapter<Cliente> adapter = new ArrayAdapter<Cliente>(this, android.R.layout.simple_list_item_1, admin.ObtenerLista());
+                arrayGlobal = adapter;
+                listView.setAdapter(adapter);
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Cliente cli = (Cliente) parent.getAdapter().getItem(position);
+                        Toast.makeText(getBaseContext(), cli.getIdCliente() + ": " + cli.getNombre() + " - " + cli.getCiudad() + " - " + cli.getTelefono() + " - " + cli.getDireccion(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+     */
     private void cargarEventos() {
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,6 +179,8 @@ public class AdminClientesActivity extends AppCompatActivity {
         btnBuscar = findViewById(R.id.btn_admincli_buscar);
         btnEditar = findViewById(R.id.btn_admincli_refresh);
         //listView = findViewById(R.id.lv_admincli);
+        mRecyclerView=findViewById(R.id.rv_admincli);
+        
 
         etBusqueda = findViewById(R.id.et_admincli_busca);
     }
