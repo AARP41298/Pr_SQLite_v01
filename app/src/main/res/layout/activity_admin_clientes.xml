@@ -68,6 +68,18 @@
         app:layout_constraintTop_toBottomOf="@+id/et_admincli_busca"
         app:srcCompat="@android:drawable/stat_notify_sync" />
 
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@android:color/darker_gray"
+        android:scrollbars="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_admincli_eliminar" />
+    <!--
     <ListView
         android:id="@+id/lv_admincli"
         android:layout_width="match_parent"
@@ -76,5 +88,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_admincli_eliminar" />
+        -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.example.pr_sqlite_v01;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +24,10 @@ public class AdminClientesActivity extends AppCompatActivity {
     ListView listView;
     EditText etBusqueda;
     String campoBusqueda;
+
+    RecyclerView mRecyclerView;
+    AdaptadorClienteItem mAdapter;
+    RecyclerView.LayoutManager mLayoutManager;
 
     ArrayAdapter<Cliente> arrayGlobal;
 
@@ -141,7 +146,8 @@ public class AdminClientesActivity extends AppCompatActivity {
         btnEliminar = findViewById(R.id.btn_admincli_eliminar);
         btnBuscar = findViewById(R.id.btn_admincli_buscar);
         btnEditar = findViewById(R.id.btn_admincli_refresh);
-        listView = findViewById(R.id.lv_admincli);
+        //listView = findViewById(R.id.lv_admincli);
+
         etBusqueda = findViewById(R.id.et_admincli_busca);
     }
 }
